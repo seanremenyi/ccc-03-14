@@ -11,7 +11,11 @@ book_images = Blueprint("book_images", __name__, url_prefix="/books/<int:book_id
 @jwt_required
 @verify_user
 def book_image_create(book_id):
-    return "1"
+    if "image" in request.files:
+        image = request.files["image"]
+        image.save("uploaded_images/file_1")
+        return ("", 200)
+    return abort("400", description="No image")
 
 @book_images.route("/", methods=["GET"])
 @jwt_required
